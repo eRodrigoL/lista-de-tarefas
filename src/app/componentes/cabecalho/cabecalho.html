@@ -3,4 +3,8 @@
     <mat-icon fontIcon="list" aria-label="true"></mat-icon>
     <span>Lista de Tarefas</span>
   </div>
+  <button matButton (click)="adicionarTarefa.emit()">
+    <mat-icon fontIcon="add" aria-hidden="true"></mat-icon>
+    Nova Tarefa
+  </button>
 </header>

@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  imports: [MatIconModule],
+  imports: [MatButtonModule, MatIconModule],
   selector: 'app-cabecalho',
   styleUrl: './cabecalho.scss',
   templateUrl: './cabecalho.html',
 })
-export class Cabecalho {}
+export class Cabecalho {
+  readonly adicionarTarefa = output<void>();
+}

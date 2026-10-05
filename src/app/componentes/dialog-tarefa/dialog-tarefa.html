@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Nova tarefa</h2>
+<mat-dialog-content>
+  <form [formGroup]="formulario">
+    <mat-form-field>
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="titulo" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Descrição</mat-label>
+      <textarea matInput formControlName="descricao" rows="3"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Prazo</mat-label>
+      <input matInput type="date" formControlName="prazo" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Ordem</mat-label>
+      <input matInput type="number" formControlName="ordem" min="1" step="1" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button matButton mat-dialog-close>Cancelar</button>
+  <button matButton disabled>Criar</button>
+</mat-dialog-actions>
