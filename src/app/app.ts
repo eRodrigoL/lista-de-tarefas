@@ -1,8 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Cabecalho } from './componentes/cabecalho/cabecalho';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, Cabecalho],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',

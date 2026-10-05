@@ -1,0 +1,29 @@
+:host {
+  display: block;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  min-height: 72px;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 12px 24px;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.marca mat-icon {
+  width: 40px;
+  height: 40px;
+  font-size: 40px;
+}
+
+span {
+  font-size: 20px;
+}
