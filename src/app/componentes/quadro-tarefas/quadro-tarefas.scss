@@ -29,3 +29,9 @@ h2 {
 .tarefas > * {
   flex-shrink: 0;
 }
+
+.cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
