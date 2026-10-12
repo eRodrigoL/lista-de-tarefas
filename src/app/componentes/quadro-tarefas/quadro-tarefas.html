@@ -4,5 +4,11 @@
 </div>
 
 <div class="tarefas" tabindex="0">
-  {{ estado() }}
+  @for (tarefa of tarefas(); track tarefa.id) {
+    <mat-card>
+      <h3>{{ tarefa.titulo }}</h3>
+      <p>{{ tarefa.descricao }}</p>
+      <span>Prazo: {{ tarefa.prazo }} &middot; Status: {{ tarefa.status }}</span>
+    </mat-card>
+  }
 </div>

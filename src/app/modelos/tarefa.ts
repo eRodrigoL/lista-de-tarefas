@@ -4,7 +4,7 @@ export interface Tarefa {
   descricao: string;
   prazo: string;
   status: 'pendente' | 'concluida';
-  ordem: number;
+  criadaEm: string;
 }
 
-export type NovaTarefa = Omit<Tarefa, 'id'>;
+export type NovaTarefa = Omit<Tarefa, 'id' | 'criadaEm'>;

@@ -1,3 +1,21 @@
 {
-  "tarefas": []
+  "tarefas": [
+    {
+      "id": "Wc2bw0hbkvg",
+      "titulo": "Tarefas de teste 1",
+      "descricao": "Teste de visualização da tarefa.",
+      "prazo": "2030-10-10",
+      "status": "pendente",
+      "criadaEm": "2026-10-06T09:00:00.000Z"
+    },
+    {
+      "id": "nmiAJrzsUNc",
+      "titulo": "Tarefa de teste 2",
+      "descricao": "Teste de visualização da tarefa!",
+      "prazo": "2031-03-20",
+      "status": "concluida",
+      "criadaEm": "2026-10-06T10:00:00.000Z"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

@@ -35,3 +35,20 @@ h2 {
   align-items: center;
   justify-content: space-between;
 }
+
+mat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  overflow-wrap: anywhere;
+}
+
+h3,
+p {
+  margin: 0;
+}
+
+p {
+  white-space: pre-wrap;
+}

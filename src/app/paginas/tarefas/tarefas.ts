@@ -1,8 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 
 import { QuadroTarefas } from '../../componentes/quadro-tarefas/quadro-tarefas';
 import { TarefaService } from '../../servicos/tarefa';
-import { ThumbPosition } from '@angular/material/slider/testing';
 
 @Component({
   imports: [QuadroTarefas],
@@ -10,7 +9,12 @@ import { ThumbPosition } from '@angular/material/slider/testing';
   styleUrl: './tarefas.scss',
   templateUrl: './tarefas.html',
 })
-export class Tarefas {
+export class Tarefas implements OnInit {
   private readonly servico = inject(TarefaService);
-  readonly tarefas = this.servico.tarefas;
+  readonly pendentes = this.servico.pendentes;
+  readonly concluidas = this.servico.concluidas;
+
+  ngOnInit(): void {
+    void this.servico.carregar();
+  }
 }

@@ -26,7 +26,6 @@ export class DialogTarefa {
     titulo: ['', Validators.required],
     descricao: ['', Validators.required],
     prazo: ['', Validators.required],
-    ordem: [1, [Validators.required, Validators.min(1), Validators.pattern(/^[1-9]\d*$/)]],
   });
 
   readonly salvando = signal(false);

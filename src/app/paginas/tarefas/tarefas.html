@@ -1,4 +1,12 @@
 <main>
-  <app-quadro-tarefas titulo="Pendentes" [tarefas]="tarefas()" />
-  <app-quadro-tarefas titulo="Concluídas" [tarefas]="tarefas()" />
+  <app-quadro-tarefas
+    titulo="Pendentes"
+    [tarefas]="pendentes()"
+    [quantidade]="pendentes().length"
+  />
+  <app-quadro-tarefas
+    titulo="Concluídas"
+    [tarefas]="concluidas()"
+    [quantidade]="concluidas().length"
+  />
 </main>
