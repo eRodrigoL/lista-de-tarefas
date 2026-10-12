@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { computed, inject, Service, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
+import { API_URL } from '../configuracoes/api';
 import { NovaTarefa, Tarefa } from '../modelos/tarefa';
 
 @Service()
 export class TarefaService {
   private readonly http = inject(HttpClient);
-  private readonly url = 'http://localhost:3000/tarefas';
+  private readonly url = `${API_URL}/tarefas`;
   private readonly estado = signal<Tarefa[]>([]);
   readonly tarefas = this.estado.asReadonly();
 
