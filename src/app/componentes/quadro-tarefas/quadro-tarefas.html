@@ -5,7 +5,7 @@
 
 <div class="tarefas" tabindex="0">
   @for (tarefa of tarefas(); track tarefa.id) {
-    <mat-card>
+    <mat-card (click)="visualizar.emit(tarefa)">
       <h3>{{ tarefa.titulo }}</h3>
       <p>{{ tarefa.descricao }}</p>
       <span>Prazo: {{ tarefa.prazo }} &middot; Status: {{ tarefa.status }}</span>

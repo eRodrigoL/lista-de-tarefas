@@ -3,10 +3,12 @@
     titulo="Pendentes"
     [tarefas]="pendentes()"
     [quantidade]="pendentes().length"
+    (visualizar)="visualizar($event)"
   />
   <app-quadro-tarefas
     titulo="Concluídas"
     [tarefas]="concluidas()"
     [quantidade]="concluidas().length"
+    (visualizar)="visualizar($event)"
   />
 </main>
