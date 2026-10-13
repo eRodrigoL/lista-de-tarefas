@@ -32,6 +32,13 @@ export class TarefaService {
     this.estado.set(tarefas.sort((a, b) => Date.parse(b.criadaEm) - Date.parse(a.criadaEm)));
   }
 
+  async atualizar(tarefa: Tarefa): Promise<void> {
+    const atualizada = await firstValueFrom(
+      this.http.put<Tarefa>(`${this.url}/${tarefa.id}`, tarefa),
+    );
+    this.guardar(atualizada);
+  }
+
   private guardar(tarefa: Tarefa): void {
     const tarefas = this.estado().filter((item) => item.id !== tarefa.id);
     tarefas.push(tarefa);

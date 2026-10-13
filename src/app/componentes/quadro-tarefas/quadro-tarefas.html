@@ -6,9 +6,29 @@
 <div class="tarefas" tabindex="0">
   @for (tarefa of tarefas(); track tarefa.id) {
     <mat-card (click)="visualizar.emit(tarefa)">
-      <h3>{{ tarefa.titulo }}</h3>
+      <div class="cabecalho-tarefa">
+        <h3>{{ tarefa.titulo }}</h3>
+        <span>Prazo: {{ tarefa.prazo }}</span>
+      </div>
+
       <p>{{ tarefa.descricao }}</p>
-      <span>Prazo: {{ tarefa.prazo }} &middot; Status: {{ tarefa.status }}</span>
+
+      <div class="acoes" (click)="$event.stopPropagation()">
+        <mat-slide-toggle
+          [checked]="tarefa.status === 'concluida'"
+          (change)="alterarStatus.emit(tarefa)"
+          [attr.aria-label]="'Alterar status de ' + tarefa.titulo"
+        >
+          {{ tarefa.status === 'concluida' ? 'Concluída' : 'Pendente' }}
+        </mat-slide-toggle>
+        <button
+          mat-icon-button
+          (click)="editar.emit(tarefa)"
+          [attr.aria-label]="'Editar ' + tarefa.titulo"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
     </mat-card>
   }
 </div>

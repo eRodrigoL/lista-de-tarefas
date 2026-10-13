@@ -30,4 +30,17 @@ export class Tarefas implements OnInit {
       data: { tarefa, somenteLeitura: true },
     });
   }
+
+  async alterarStatus(tarefa: Tarefa): Promise<void> {
+    const status = tarefa.status === 'pendente' ? 'concluida' : 'pendente';
+    await this.servico.atualizar({ ...tarefa, status });
+  }
+
+  editar(tarefa: Tarefa): void {
+    this.dialog.open(DialogTarefa, {
+      width: '560px',
+      maxWidth: '95vw',
+      data: { tarefa },
+    });
+  }
 }

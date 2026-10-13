@@ -4,11 +4,15 @@
     [tarefas]="pendentes()"
     [quantidade]="pendentes().length"
     (visualizar)="visualizar($event)"
+    (alterarStatus)="alterarStatus($event)"
+    (editar)="editar($event)"
   />
   <app-quadro-tarefas
     titulo="Concluídas"
     [tarefas]="concluidas()"
     [quantidade]="concluidas().length"
     (visualizar)="visualizar($event)"
+    (alterarStatus)="alterarStatus($event)"
+    (editar)="editar($event)"
   />
 </main>
