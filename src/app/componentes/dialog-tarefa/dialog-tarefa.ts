@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
@@ -14,6 +15,7 @@ import { TarefaService } from '../../servicos/tarefa';
     MatButtonModule,
     MatDialogModule,
     MatFormFieldModule,
+    MatIconModule,
     MatInputModule,
     ReactiveFormsModule,
     MatSlideToggleModule,
@@ -37,11 +39,30 @@ export class DialogTarefa {
   });
 
   readonly salvando = signal(false);
-  readonly visualizando = !!this.dados?.somenteLeitura;
-  readonly editando = !!this.dados?.tarefa && !this.visualizando;
+  visualizando = !!this.dados?.somenteLeitura;
+
+  get editando(): boolean {
+    return !!this.dados?.tarefa && !this.visualizando;
+  }
 
   constructor() {
     if (this.visualizando) this.formulario.disable();
+  }
+
+  editar(): void {
+    this.visualizando = false;
+    this.formulario.enable();
+  }
+
+  async excluir(): Promise<void> {
+    if (!this.dados?.tarefa || this.salvando()) return;
+    this.salvando.set(true);
+    try {
+      await this.servico.excluir(this.dados.tarefa.id);
+      this.dialogRef.close();
+    } finally {
+      this.salvando.set(false);
+    }
   }
 
   async salvar(): Promise<void> {

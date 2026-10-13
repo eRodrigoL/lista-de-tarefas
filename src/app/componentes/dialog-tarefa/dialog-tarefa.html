@@ -11,7 +11,7 @@
 
     <span mat-dialog-title>
       @if (dados?.tarefa) {
-        {{ dados?.tarefa?.status === 'concluida' ? 'Concluída' : 'Pendente' }}
+        {{ formulario.controls.status.value === 'concluida' ? 'Concluída' : 'Pendente' }}
       } @else {
         Nova tarefa
       }
@@ -36,12 +36,33 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button matButton mat-dialog-close [disabled]="salvando()">
-    {{ visualizando ? 'Fechar' : 'Cancelar' }}
-  </button>
-  @if (!visualizando) {
-    <button matButton [disabled]="formulario.invalid || salvando()" (click)="salvar()">
-      {{ editando ? 'Salvar alterações' : 'Criar' }}
+  @if (visualizando) {
+    <button mat-icon-button (click)="editar()" [disabled]="salvando()" aria-label="Editar tarefa">
+      <mat-icon>edit</mat-icon>
     </button>
   }
+  @if (dados?.tarefa) {
+    <button mat-icon-button (click)="excluir()" [disabled]="salvando()" aria-label="Excluir tarefa">
+      <mat-icon>delete</mat-icon>
+    </button>
+  }
+  @if (!visualizando) {
+    <button
+      mat-icon-button
+      [disabled]="formulario.invalid || salvando()"
+      (click)="salvar()"
+      [attr.aria-label]="editando ? 'Salvar alterações' : 'Criar tarefa'"
+    >
+      <mat-icon>{{ editando ? 'save' : 'add' }}</mat-icon>
+    </button>
+  }
+  <button
+    mat-icon-button
+    class="fechar"
+    mat-dialog-close
+    [disabled]="salvando()"
+    aria-label="Fechar"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
 </mat-dialog-actions>

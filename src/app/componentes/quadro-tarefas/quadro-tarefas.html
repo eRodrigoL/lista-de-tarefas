@@ -21,13 +21,22 @@
         >
           {{ tarefa.status === 'concluida' ? 'Concluída' : 'Pendente' }}
         </mat-slide-toggle>
-        <button
-          mat-icon-button
-          (click)="editar.emit(tarefa)"
-          [attr.aria-label]="'Editar ' + tarefa.titulo"
-        >
-          <mat-icon>edit</mat-icon>
-        </button>
+        <div>
+          <button
+            mat-icon-button
+            (click)="editar.emit(tarefa)"
+            [attr.aria-label]="'Editar ' + tarefa.titulo"
+          >
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            (click)="excluir.emit(tarefa)"
+            [attr.aria-label]="'Excluir ' + tarefa.titulo"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
       </div>
     </mat-card>
   }

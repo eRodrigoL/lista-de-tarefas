@@ -43,4 +43,8 @@ export class Tarefas implements OnInit {
       data: { tarefa },
     });
   }
+
+  async excluir(tarefa: Tarefa): Promise<void> {
+    await this.servico.excluir(tarefa.id);
+  }
 }

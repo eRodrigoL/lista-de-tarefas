@@ -16,6 +16,7 @@ export class QuadroTarefas {
   readonly quantidade = input(0);
   readonly tarefas = input<Tarefa[]>([]);
   readonly titulo = input.required<string>();
+  readonly excluir = output<Tarefa>();
   readonly alterarStatus = output<Tarefa>();
   readonly editar = output<Tarefa>();
   readonly visualizar = output<Tarefa>();

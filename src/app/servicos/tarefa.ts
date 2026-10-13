@@ -39,6 +39,11 @@ export class TarefaService {
     this.guardar(atualizada);
   }
 
+  async excluir(id: string): Promise<void> {
+    await firstValueFrom(this.http.delete<void>(`${this.url}/${id}`));
+    this.estado.update((tarefas) => tarefas.filter((tarefa) => tarefa.id !== id));
+  }
+
   private guardar(tarefa: Tarefa): void {
     const tarefas = this.estado().filter((item) => item.id !== tarefa.id);
     tarefas.push(tarefa);
