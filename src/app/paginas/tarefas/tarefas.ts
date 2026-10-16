@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ConfirmacaoService } from '../../servicos/confirmacao';
 import { DialogTarefa } from '../../componentes/dialog-tarefa/dialog-tarefa';
@@ -14,6 +15,7 @@ import { TarefaService } from '../../servicos/tarefa';
   templateUrl: './tarefas.html',
 })
 export class Tarefas implements OnInit {
+  private readonly aviso = inject(MatSnackBar);
   private readonly confirmacao = inject(ConfirmacaoService);
   private readonly servico = inject(TarefaService);
   private readonly dialog = inject(MatDialog);
@@ -22,7 +24,7 @@ export class Tarefas implements OnInit {
   readonly concluidas = this.servico.concluidas;
 
   ngOnInit(): void {
-    void this.servico.carregar();
+    void this.carregar();
   }
 
   visualizar(tarefa: Tarefa): void {
@@ -35,7 +37,11 @@ export class Tarefas implements OnInit {
 
   async alterarStatus(tarefa: Tarefa): Promise<void> {
     const status = tarefa.status === 'pendente' ? 'concluida' : 'pendente';
-    await this.servico.atualizar({ ...tarefa, status });
+    try {
+      await this.servico.atualizar({ ...tarefa, status });
+    } catch {
+      this.aviso.open('Não foi possível alterar o status. Tente novamente.', 'Fechar');
+    }
   }
 
   editar(tarefa: Tarefa): void {
@@ -47,7 +53,19 @@ export class Tarefas implements OnInit {
   }
 
   async excluir(tarefa: Tarefa): Promise<void> {
-    if (!(await this.confirmacao.excluir(tarefa.titulo))) return;
-    await this.servico.excluir(tarefa.id);
+    try {
+      if (!(await this.confirmacao.excluir(tarefa.titulo))) return;
+      await this.servico.excluir(tarefa.id);
+    } catch {
+      this.aviso.open('Não foi possível excluir a tarefa. Tente novamente.', 'Fechar');
+    }
+  }
+
+  private async carregar(): Promise<void> {
+    try {
+      await this.servico.carregar();
+    } catch {
+      this.aviso.open('Não foi possível carregar as tarefas. Recarregue a página.', 'Fechar');
+    }
   }
 }

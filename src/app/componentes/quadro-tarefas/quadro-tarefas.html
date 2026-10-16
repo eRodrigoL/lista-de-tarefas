@@ -16,7 +16,9 @@
       <div class="acoes" (click)="$event.stopPropagation()">
         <mat-slide-toggle
           [checked]="tarefa.status === 'concluida'"
-          (change)="alterarStatus.emit(tarefa)"
+          (change)="
+            alterarStatus.emit(tarefa); $event.source.checked = tarefa.status === 'concluida'
+          "
           [attr.aria-label]="'Alterar status de ' + tarefa.titulo"
         >
           {{ tarefa.status === 'concluida' ? 'Concluída' : 'Pendente' }}

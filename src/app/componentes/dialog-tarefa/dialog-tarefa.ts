@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ConfirmacaoService } from '../../servicos/confirmacao';
 import { Tarefa } from '../../modelos/tarefa';
@@ -26,6 +27,7 @@ import { TarefaService } from '../../servicos/tarefa';
   templateUrl: './dialog-tarefa.html',
 })
 export class DialogTarefa {
+  private readonly aviso = inject(MatSnackBar);
   private readonly confirmacao = inject(ConfirmacaoService);
   private readonly servico = inject(TarefaService);
   private readonly dialogRef = inject(MatDialogRef<DialogTarefa>);
@@ -63,6 +65,8 @@ export class DialogTarefa {
       if (!(await this.confirmacao.excluir(this.dados.tarefa.titulo))) return;
       await this.servico.excluir(this.dados.tarefa.id);
       this.dialogRef.close();
+    } catch {
+      this.aviso.open('Não foi possível excluir a tarefa. Tente novamente.', 'Fechar');
     } finally {
       this.salvando.set(false);
     }
@@ -79,6 +83,8 @@ export class DialogTarefa {
         await this.servico.criar({ ...valores, status: 'pendente' });
       }
       this.dialogRef.close();
+    } catch {
+      this.aviso.open('Não foi possível salvar a tarefa. Tente novamente.', 'Fechar');
     } finally {
       this.salvando.set(false);
     }
