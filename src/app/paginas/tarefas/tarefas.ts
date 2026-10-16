@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
+import { ConfirmacaoService } from '../../servicos/confirmacao';
 import { DialogTarefa } from '../../componentes/dialog-tarefa/dialog-tarefa';
 import { QuadroTarefas } from '../../componentes/quadro-tarefas/quadro-tarefas';
 import { Tarefa } from '../../modelos/tarefa';
@@ -13,6 +14,7 @@ import { TarefaService } from '../../servicos/tarefa';
   templateUrl: './tarefas.html',
 })
 export class Tarefas implements OnInit {
+  private readonly confirmacao = inject(ConfirmacaoService);
   private readonly servico = inject(TarefaService);
   private readonly dialog = inject(MatDialog);
 
@@ -45,6 +47,7 @@ export class Tarefas implements OnInit {
   }
 
   async excluir(tarefa: Tarefa): Promise<void> {
+    if (!(await this.confirmacao.excluir(tarefa.titulo))) return;
     await this.servico.excluir(tarefa.id);
   }
 }

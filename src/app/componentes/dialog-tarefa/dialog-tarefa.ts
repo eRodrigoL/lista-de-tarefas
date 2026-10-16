@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
+import { ConfirmacaoService } from '../../servicos/confirmacao';
 import { Tarefa } from '../../modelos/tarefa';
 import { TarefaService } from '../../servicos/tarefa';
 
@@ -25,6 +26,7 @@ import { TarefaService } from '../../servicos/tarefa';
   templateUrl: './dialog-tarefa.html',
 })
 export class DialogTarefa {
+  private readonly confirmacao = inject(ConfirmacaoService);
   private readonly servico = inject(TarefaService);
   private readonly dialogRef = inject(MatDialogRef<DialogTarefa>);
 
@@ -58,6 +60,7 @@ export class DialogTarefa {
     if (!this.dados?.tarefa || this.salvando()) return;
     this.salvando.set(true);
     try {
+      if (!(await this.confirmacao.excluir(this.dados.tarefa.titulo))) return;
       await this.servico.excluir(this.dados.tarefa.id);
       this.dialogRef.close();
     } finally {
