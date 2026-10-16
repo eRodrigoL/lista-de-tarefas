@@ -8,10 +8,10 @@
     <mat-card (click)="visualizar.emit(tarefa)">
       <div class="cabecalho-tarefa">
         <h3>{{ tarefa.titulo }}</h3>
-        <span>Prazo: {{ tarefa.prazo }}</span>
+        <span>Prazo: {{ tarefa.prazo | date: 'dd/MM/yyyy' }}</span>
       </div>
 
-      <p>{{ tarefa.descricao }}</p>
+      <p>{{ tarefa.descricao | resumo }}</p>
 
       <div class="acoes" (click)="$event.stopPropagation()">
         <mat-slide-toggle

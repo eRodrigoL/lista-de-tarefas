@@ -3,11 +3,20 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { DatePipe } from '@angular/common';
 
 import { Tarefa } from '../../modelos/tarefa';
+import { ResumoPipe } from '../../pipes/resumo-pipe';
 
 @Component({
-  imports: [MatButtonModule, MatCardModule, MatIconModule, MatSlideToggleModule],
+  imports: [
+    DatePipe,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatSlideToggleModule,
+    ResumoPipe,
+  ],
   selector: 'app-quadro-tarefas',
   styleUrl: './quadro-tarefas.scss',
   templateUrl: './quadro-tarefas.html',
