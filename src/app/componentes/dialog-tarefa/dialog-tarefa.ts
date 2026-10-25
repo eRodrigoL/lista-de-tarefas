@@ -61,6 +61,7 @@ export class DialogTarefa {
   async excluir(): Promise<void> {
     if (!this.dados?.tarefa || this.salvando()) return;
     this.salvando.set(true);
+    this.dialogRef.disableClose = true;
     try {
       if (!(await this.confirmacao.excluir(this.dados.tarefa.titulo))) return;
       await this.servico.excluir(this.dados.tarefa.id);
@@ -69,12 +70,14 @@ export class DialogTarefa {
       this.aviso.open('Não foi possível excluir a tarefa. Tente novamente.', 'Fechar');
     } finally {
       this.salvando.set(false);
+      this.dialogRef.disableClose = false;
     }
   }
 
   async salvar(): Promise<void> {
     if (this.visualizando || this.formulario.invalid || this.salvando()) return;
     this.salvando.set(true);
+    this.dialogRef.disableClose = true;
     try {
       const valores = this.formulario.getRawValue();
       if (this.editando && this.dados?.tarefa) {
@@ -87,6 +90,7 @@ export class DialogTarefa {
       this.aviso.open('Não foi possível salvar a tarefa. Tente novamente.', 'Fechar');
     } finally {
       this.salvando.set(false);
+      this.dialogRef.disableClose = false;
     }
   }
 }

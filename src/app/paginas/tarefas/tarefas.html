@@ -1,6 +1,7 @@
 <main>
   <app-quadro-tarefas
     titulo="Pendentes"
+    [ocupado]="ocupado()"
     [tarefas]="pendentes()"
     [quantidade]="pendentes().length"
     (visualizar)="visualizar($event)"
@@ -10,6 +11,7 @@
   />
   <app-quadro-tarefas
     titulo="Concluídas"
+    [ocupado]="ocupado()"
     [tarefas]="concluidas()"
     [quantidade]="concluidas().length"
     (visualizar)="visualizar($event)"

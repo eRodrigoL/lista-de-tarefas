@@ -22,6 +22,7 @@ import { ResumoPipe } from '../../pipes/resumo-pipe';
   templateUrl: './quadro-tarefas.html',
 })
 export class QuadroTarefas {
+  readonly ocupado = input(false);
   readonly quantidade = input(0);
   readonly tarefas = input<Tarefa[]>([]);
   readonly titulo = input.required<string>();

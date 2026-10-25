@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -20,6 +20,7 @@ export class Tarefas implements OnInit {
   private readonly servico = inject(TarefaService);
   private readonly dialog = inject(MatDialog);
 
+  readonly ocupado = signal(false);
   readonly pendentes = this.servico.pendentes;
   readonly concluidas = this.servico.concluidas;
 
@@ -28,6 +29,7 @@ export class Tarefas implements OnInit {
   }
 
   visualizar(tarefa: Tarefa): void {
+    if (this.ocupado()) return;
     this.dialog.open(DialogTarefa, {
       width: '560px',
       maxWidth: '95vw',
@@ -36,15 +38,20 @@ export class Tarefas implements OnInit {
   }
 
   async alterarStatus(tarefa: Tarefa): Promise<void> {
+    if (this.ocupado()) return;
+    this.ocupado.set(true);
     const status = tarefa.status === 'pendente' ? 'concluida' : 'pendente';
     try {
       await this.servico.atualizar({ ...tarefa, status });
     } catch {
       this.aviso.open('Não foi possível alterar o status. Tente novamente.', 'Fechar');
+    } finally {
+      this.ocupado.set(false);
     }
   }
 
   editar(tarefa: Tarefa): void {
+    if (this.ocupado()) return;
     this.dialog.open(DialogTarefa, {
       width: '560px',
       maxWidth: '95vw',
@@ -53,11 +60,15 @@ export class Tarefas implements OnInit {
   }
 
   async excluir(tarefa: Tarefa): Promise<void> {
+    if (this.ocupado()) return;
+    this.ocupado.set(true);
     try {
       if (!(await this.confirmacao.excluir(tarefa.titulo))) return;
       await this.servico.excluir(tarefa.id);
     } catch {
       this.aviso.open('Não foi possível excluir a tarefa. Tente novamente.', 'Fechar');
+    } finally {
+      this.ocupado.set(false);
     }
   }
 
@@ -66,6 +77,8 @@ export class Tarefas implements OnInit {
       await this.servico.carregar();
     } catch {
       this.aviso.open('Não foi possível carregar as tarefas. Recarregue a página.', 'Fechar');
+    } finally {
+      this.ocupado.set(false);
     }
   }
 }

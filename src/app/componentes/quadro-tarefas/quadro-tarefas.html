@@ -5,16 +5,28 @@
 
 <div class="tarefas" tabindex="0">
   @for (tarefa of tarefas(); track tarefa.id) {
-    <mat-card (click)="visualizar.emit(tarefa)">
-      <div class="cabecalho-tarefa">
-        <h3>{{ tarefa.titulo }}</h3>
-        <span>Prazo: {{ tarefa.prazo | date: 'dd/MM/yyyy' }}</span>
-      </div>
+    <mat-card>
+      <div
+        class="conteudo"
+        role="button"
+        tabindex="0"
+        [attr.aria-label]="'Visualizar ' + tarefa.titulo"
+        [attr.aria-disabled]="ocupado()"
+        (click)="!ocupado() && visualizar.emit(tarefa)"
+        (keydown.enter)="!ocupado() && visualizar.emit(tarefa)"
+        (keydown.space)="$event.preventDefault(); !ocupado() && visualizar.emit(tarefa)"
+      >
+        <div class="cabecalho-tarefa">
+          <h3>{{ tarefa.titulo }}</h3>
+          <span>Prazo: {{ tarefa.prazo | date: 'dd/MM/yyyy' }}</span>
+        </div>
 
-      <p>{{ tarefa.descricao | resumo }}</p>
+        <p>{{ tarefa.descricao | resumo }}</p>
+      </div>
 
       <div class="acoes" (click)="$event.stopPropagation()">
         <mat-slide-toggle
+          [disabled]="ocupado()"
           [checked]="tarefa.status === 'concluida'"
           (change)="
             alterarStatus.emit(tarefa); $event.source.checked = tarefa.status === 'concluida'
@@ -26,6 +38,7 @@
         <div>
           <button
             mat-icon-button
+            [disabled]="ocupado()"
             (click)="editar.emit(tarefa)"
             [attr.aria-label]="'Editar ' + tarefa.titulo"
           >
@@ -33,6 +46,7 @@
           </button>
           <button
             mat-icon-button
+            [disabled]="ocupado()"
             (click)="excluir.emit(tarefa)"
             [attr.aria-label]="'Excluir ' + tarefa.titulo"
           >

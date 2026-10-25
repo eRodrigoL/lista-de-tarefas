@@ -48,7 +48,10 @@ mat-card {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  width: 100%;
+  max-width: 360px;
   padding: 12px;
+  box-sizing: border-box;
   overflow-wrap: anywhere;
 }
 
