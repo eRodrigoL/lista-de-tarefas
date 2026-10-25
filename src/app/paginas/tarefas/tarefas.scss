@@ -9,8 +9,17 @@ main {
   grid-template-rows: repeat(2, minmax(0, 1fr));
   flex: 1;
   min-height: 0;
+  width: 100%;
   max-width: 1240px;
   margin: 0 auto;
   padding: 24px;
   gap: 24px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  main {
+    gap: 12px;
+    padding: 12px;
+  }
 }

@@ -13,8 +13,11 @@ h2 {
 }
 
 .tarefas {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  grid-auto-rows: max-content;
+  align-content: start;
+  align-items: start;
   flex: 1;
   min-height: 0;
   gap: 12px;
@@ -24,10 +27,6 @@ h2 {
 
 .tarefas::-webkit-scrollbar {
   display: none;
-}
-
-.tarefas > * {
-  flex-shrink: 0;
 }
 
 .cabecalho {
@@ -49,7 +48,8 @@ mat-card {
   flex-direction: column;
   gap: 8px;
   width: 100%;
-  max-width: 360px;
+  min-width: 0;
+  max-width: none;
   padding: 12px;
   box-sizing: border-box;
   overflow-wrap: anywhere;
@@ -64,8 +64,17 @@ p {
   white-space: pre-wrap;
 }
 
-mat-card {
+.conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 4px;
   cursor: pointer;
+}
+
+.conteudo:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
 }
 
 .acoes {
@@ -73,4 +82,22 @@ mat-card {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+}
+
+@media (max-width: 600px) {
+  :host {
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .cabecalho-tarefa {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .acoes {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
 }

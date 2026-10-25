@@ -2,19 +2,83 @@
   "tarefas": [
     {
       "id": "Wc2bw0hbkvg",
-      "titulo": "Tarefas de teste 1",
-      "descricao": "Teste de visualização da tarefa.",
+      "titulo": "Organizar atividades da semana",
+      "descricao": "Listar as atividades previstas e identificar quais precisam ser concluídas primeiro.",
       "prazo": "2030-10-10",
       "status": "pendente",
       "criadaEm": "2026-10-06T09:00:00.000Z"
     },
     {
+      "id": "p3kL8mN2qRs",
+      "titulo": "Comprar materiais",
+      "descricao": "Comprar caderno, canetas e etiquetas.",
+      "prazo": "2030-10-12",
+      "status": "pendente",
+      "criadaEm": "2026-10-06T11:00:00.000Z"
+    },
+    {
+      "id": "v7tB4xC9dEf",
+      "titulo": "Revisar o relatório mensal e conferir os valores antes de encaminhar a versão final",
+      "descricao": "Conferir os dados de todas as seções, corrigir possíveis divergências e verificar se os totais apresentados correspondem aos documentos utilizados como referência.",
+      "prazo": "2030-10-15",
+      "status": "pendente",
+      "criadaEm": "2026-10-07T08:30:00.000Z"
+    },
+    {
+      "id": "h5jK1lM6nOp",
+      "titulo": "Preparar reunião",
+      "descricao": "Definir a pauta.\nSeparar os documentos necessários.\nAnotar as decisões que precisam ser tomadas.",
+      "prazo": "2030-10-18",
+      "status": "pendente",
+      "criadaEm": "2026-10-07T14:00:00.000Z"
+    },
+    {
+      "id": "a9sD2fG7hJk",
+      "titulo": "Agendar manutenção",
+      "descricao": "Consultar os horários disponíveis e agendar a manutenção do computador.",
+      "prazo": "2030-10-20",
+      "status": "pendente",
+      "criadaEm": "2026-10-08T10:15:00.000Z"
+    },
+    {
       "id": "nmiAJrzsUNc",
-      "titulo": "Tarefa de teste 2",
-      "descricao": "Teste de visualização da tarefa!",
-      "prazo": "2031-03-20",
+      "titulo": "Atualizar cadastro",
+      "descricao": "Conferir telefone, endereço e e-mail.",
+      "prazo": "2030-10-05",
       "status": "concluida",
       "criadaEm": "2026-10-06T10:00:00.000Z"
+    },
+    {
+      "id": "z8xC3vB6nMq",
+      "titulo": "Separar documentos",
+      "descricao": "Reunir os comprovantes e organizar os arquivos por data.",
+      "prazo": "2030-10-06",
+      "status": "concluida",
+      "criadaEm": "2026-10-06T15:00:00.000Z"
+    },
+    {
+      "id": "r4tY7uI1oPa",
+      "titulo": "Conferir o inventário dos equipamentos e registrar os itens que precisam de substituição",
+      "descricao": "Verificar os equipamentos disponíveis, registrar o estado de conservação de cada item e preparar uma relação com os materiais que precisam ser substituídos ou reparados.",
+      "prazo": "2030-10-07",
+      "status": "concluida",
+      "criadaEm": "2026-10-07T09:45:00.000Z"
+    },
+    {
+      "id": "s2dF5gH8jKl",
+      "titulo": "Organizar arquivos",
+      "descricao": "Separar documentos pessoais e profissionais.\nRenomear arquivos sem identificação.\nRemover cópias duplicadas.",
+      "prazo": "2030-10-08",
+      "status": "concluida",
+      "criadaEm": "2026-10-07T16:20:00.000Z"
+    },
+    {
+      "id": "q6wE9rT3yUi",
+      "titulo": "Enviar comprovante",
+      "descricao": "Encaminhar o comprovante de pagamento.",
+      "prazo": "2030-10-09",
+      "status": "concluida",
+      "criadaEm": "2026-10-08T11:30:00.000Z"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

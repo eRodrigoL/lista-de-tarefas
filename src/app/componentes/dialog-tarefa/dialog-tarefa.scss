@@ -1,3 +1,14 @@
+@use '@angular/material' as mat;
+
+:host {
+  @include mat.form-field-overrides(
+    (
+      filled-disabled-input-text-color: var(--mat-sys-on-surface),
+      filled-disabled-label-text-color: var(--mat-sys-on-surface-variant),
+    )
+  );
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -30,11 +41,22 @@ form {
 }
 
 .situacao {
-  display: fex;
+  display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .fechar {
   margin-left: 12px;
+}
+
+@media (max-width: 600px) {
+  .cabecalho {
+    gap: 8px;
+    padding: 16px;
+  }
+
+  .prazo {
+    width: 100%;
+  }
 }
