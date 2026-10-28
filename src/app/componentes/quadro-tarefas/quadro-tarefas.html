@@ -1,6 +1,9 @@
 <div class="cabecalho">
-  <h2>{{ titulo() }}</h2>
-  <span>{{ quantidade() }}</span>
+  <div class="titulo-quadro">
+    <mat-icon class="icone-quadro" [fontIcon]="icone()" aria-hidden="true" />
+    <h2>{{ titulo() }}</h2>
+  </div>
+  <span class="quantidade">{{ quantidade() }}</span>
 </div>
 
 <div class="tarefas" tabindex="0">
@@ -18,24 +21,32 @@
       >
         <div class="cabecalho-tarefa">
           <h3>{{ tarefa.titulo }}</h3>
-          <span>Prazo: {{ tarefa.prazo | date: 'dd/MM/yyyy' }}</span>
         </div>
-
         <p>{{ tarefa.descricao | resumo }}</p>
       </div>
 
       <div class="acoes" (click)="$event.stopPropagation()">
-        <mat-slide-toggle
-          [disabled]="ocupado()"
-          [checked]="tarefa.status === 'concluida'"
-          (change)="
-            alterarStatus.emit(tarefa); $event.source.checked = tarefa.status === 'concluida'
-          "
-          [attr.aria-label]="'Alterar status de ' + tarefa.titulo"
-        >
-          {{ tarefa.status === 'concluida' ? 'Concluída' : 'Pendente' }}
-        </mat-slide-toggle>
-        <div>
+        <div class="informacoes">
+          <div class="situacao" [class.concluida]="tarefa.status === 'concluida'">
+            <mat-slide-toggle
+              [disabled]="ocupado()"
+              [checked]="tarefa.status === 'concluida'"
+              (change)="
+                alterarStatus.emit(tarefa); $event.source.checked = tarefa.status === 'concluida'
+              "
+              [attr.aria-label]="'Alterar status de ' + tarefa.titulo"
+            />
+            <span>{{ tarefa.status === 'concluida' ? 'Concluída' : 'Pendente' }}</span>
+          </div>
+          <span class="prazo">
+            <mat-icon aria-hidden="true">calendar_today</mat-icon>
+            <span>
+              <small>Prazo:</small>
+              <strong>{{ tarefa.prazo | date: 'dd/MM/yyyy' }}</strong>
+            </span>
+          </span>
+        </div>
+        <div class="botoes">
           <button
             mat-icon-button
             [disabled]="ocupado()"
@@ -46,6 +57,7 @@
           </button>
           <button
             mat-icon-button
+            class="excluir"
             [disabled]="ocupado()"
             (click)="excluir.emit(tarefa)"
             [attr.aria-label]="'Excluir ' + tarefa.titulo"
@@ -55,5 +67,10 @@
         </div>
       </div>
     </mat-card>
+  } @empty {
+    <div class="vazio">
+      <mat-icon aria-hidden="true">inbox</mat-icon>
+      <span>Nenhuma tarefa neste quadro.</span>
+    </div>
   }
 </div>

@@ -1,34 +1,30 @@
-@use '@angular/material' as mat;
-
-:host {
-  @include mat.form-field-overrides(
-    (
-      filled-disabled-input-text-color: var(--mat-sys-on-surface),
-      filled-disabled-label-text-color: var(--mat-sys-on-surface-variant),
-    )
-  );
-}
-
 form {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding-top: 8px;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid var(--app-divisor);
+  border-radius: 16px;
+  background-color: var(--app-cartao);
 }
+
 .cabecalho {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 12px;
-  padding: 20px 24px 8px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--app-divisor);
+  background-color: var(--app-dialog-cabecalho);
 }
 
 .cabecalho [mat-dialog-title] {
   margin: 0;
   padding: 0;
-  font-size: 1rem;
-  font-weight: 500;
+  color: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
   line-height: 1.4;
 }
 
@@ -40,14 +36,12 @@ form {
   width: 180px;
 }
 
-.situacao {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
 .fechar {
   margin-left: 12px;
+}
+
+mat-dialog-content {
+  padding: 20px 24px 24px;
 }
 
 @media (max-width: 600px) {

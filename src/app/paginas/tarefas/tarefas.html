@@ -1,6 +1,7 @@
 <main>
   <app-quadro-tarefas
     titulo="Pendentes"
+    icone="schedule"
     [ocupado]="ocupado()"
     [tarefas]="pendentes()"
     [quantidade]="pendentes().length"
@@ -11,6 +12,7 @@
   />
   <app-quadro-tarefas
     titulo="Concluídas"
+    icone="task_alt"
     [ocupado]="ocupado()"
     [tarefas]="concluidas()"
     [quantidade]="concluidas().length"

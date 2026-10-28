@@ -1,31 +1,106 @@
 @use '@angular/material' as mat;
 
+:root {
+  --app-fundo: #f7faf8;
+  --app-quadro: #f3f8f5;
+  --app-cartao: #ffffff;
+  --app-dialog: #f1f5f2;
+  --app-dialog-cabecalho: #f8fbf9;
+  --app-cabecalho: #4f846b;
+  --app-sobre-cabecalho: #ffffff;
+  --app-marca-fundo: rgb(255 255 255 / 14%);
+  --app-primaria: #4f846b;
+  --app-primaria-escura: #37634e;
+  --app-texto: #30463a;
+  --app-titulo: #294536;
+  --app-secundario: #67766e;
+  --app-prazo: #566b5f;
+  --app-borda: #c7d9cd;
+  --app-divisor: #e0e9e3;
+  --app-suave: #e4f0e8;
+  --app-contador-fundo: #dfece4;
+  --app-contador-texto: #486656;
+  --app-pendente: #9a610d;
+  --app-pendente-fundo: #fff3df;
+  --app-trilho-pendente: #f5dfb5;
+  --app-concluida: #147049;
+  --app-concluida-fundo: #e4f6ed;
+  --app-perigo: #b3261e;
+  --app-foco: #4f846b;
+  --app-sombra: 0 3px 14px rgb(46 86 64 / 8%);
+}
+
 html {
   height: 100%;
+
   @include mat.theme(
     (
       color: (
-        primary: mat.$azure-palette,
-        tertiary: mat.$blue-palette,
+        primary: mat.$green-palette,
+        tertiary: mat.$green-palette,
       ),
-      typography: Roboto,
+      typography: Inter,
       density: 0,
+    )
+  );
+
+  @include mat.theme-overrides(
+    (
+      primary: var(--app-primaria-escura),
+      on-primary: var(--app-sobre-cabecalho),
+      surface: var(--app-cartao),
+      on-surface: var(--app-texto),
+      on-surface-variant: var(--app-secundario),
+      outline: var(--app-borda),
+      outline-variant: var(--app-borda),
+      error: var(--app-perigo),
+    )
+  );
+
+  @include mat.form-field-overrides(
+    (
+      filled-container-color: var(--app-cartao),
+      filled-disabled-container-color: var(--app-cartao),
+      filled-disabled-input-text-color: var(--app-texto),
+      filled-disabled-label-text-color: var(--app-secundario),
+    )
+  );
+
+  @include mat.dialog-overrides(
+    (
+      container-color: var(--app-dialog),
+      container-shape: 20px,
+    )
+  );
+
+  @include mat.slide-toggle-overrides(
+    (
+      selected-track-color: var(--app-concluida),
+      selected-hover-track-color: var(--app-concluida),
+      selected-focus-track-color: var(--app-concluida),
+      selected-pressed-track-color: var(--app-concluida),
+      unselected-track-color: var(--app-trilho-pendente),
+      unselected-hover-track-color: var(--app-trilho-pendente),
+      unselected-focus-track-color: var(--app-trilho-pendente),
+      unselected-pressed-track-color: var(--app-trilho-pendente),
+      unselected-handle-color: var(--app-pendente),
+      unselected-hover-handle-color: var(--app-pendente),
+      unselected-focus-handle-color: var(--app-pendente),
+      unselected-pressed-handle-color: var(--app-pendente),
+      track-outline-color: var(--app-pendente),
     )
   );
 }
 
 body {
-  color-scheme: light;
-
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
-
-  margin: 0;
   height: 100%;
+  margin: 0;
+  color-scheme: light;
+  background-color: var(--app-fundo);
+  color: var(--app-texto);
+  font-family: Inter, Arial, sans-serif;
 }
 
-// Reset visual
 *,
 *::before,
 *::after {
@@ -37,4 +112,33 @@ input,
 textarea,
 select {
   font: inherit;
+}
+
+.material-icons,
+.mat-icon {
+  font-family: 'Material Symbols Rounded';
+  font-feature-settings: 'liga';
+}
+
+.situacao {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 24px;
+  background-color: var(--app-pendente-fundo);
+  color: var(--app-pendente);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.situacao.concluida {
+  background-color: var(--app-concluida-fundo);
+  color: var(--app-concluida);
+}
+
+button.excluir {
+  color: var(--app-perigo);
 }

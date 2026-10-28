@@ -1,5 +1,5 @@
 <div class="cabecalho" [formGroup]="formulario">
-  <div class="situacao">
+  <div class="situacao" [class.concluida]="formulario.controls.status.value === 'concluida'">
     @if (dados?.tarefa) {
       <mat-slide-toggle
         [checked]="formulario.controls.status.value === 'concluida'"
@@ -23,6 +23,7 @@
     <input matInput type="date" formControlName="prazo" />
   </mat-form-field>
 </div>
+
 <mat-dialog-content>
   <form [formGroup]="formulario">
     <mat-form-field>
@@ -35,17 +36,26 @@
     </mat-form-field>
   </form>
 </mat-dialog-content>
+
 <mat-dialog-actions align="end">
   @if (visualizando) {
     <button mat-icon-button (click)="editar()" [disabled]="salvando()" aria-label="Editar tarefa">
       <mat-icon>edit</mat-icon>
     </button>
   }
+
   @if (dados?.tarefa) {
-    <button mat-icon-button (click)="excluir()" [disabled]="salvando()" aria-label="Excluir tarefa">
+    <button
+      mat-icon-button
+      class="excluir"
+      (click)="excluir()"
+      [disabled]="salvando()"
+      aria-label="Excluir tarefa"
+    >
       <mat-icon>delete</mat-icon>
     </button>
   }
+
   @if (!visualizando) {
     <button
       mat-icon-button
@@ -56,6 +66,7 @@
       <mat-icon>{{ editando ? 'save' : 'add' }}</mat-icon>
     </button>
   }
+
   <button
     mat-icon-button
     class="fechar"

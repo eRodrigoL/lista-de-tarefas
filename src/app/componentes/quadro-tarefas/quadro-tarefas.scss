@@ -1,26 +1,64 @@
 :host {
   display: flex;
   flex-direction: column;
+  gap: 16px;
   min-width: 0;
   min-height: 0;
-  padding: 16px;
-  gap: 16px;
+  padding: 18px;
+  border: 1px solid var(--app-borda);
+  border-radius: 18px;
+  background-color: var(--app-quadro);
+}
+
+.cabecalho,
+.titulo-quadro {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cabecalho {
+  justify-content: space-between;
 }
 
 h2 {
   margin: 0;
-  font-size: 18px;
+  color: var(--app-titulo);
+  font-size: 1.05rem;
+}
+
+.icone-quadro {
+  width: 34px;
+  height: 34px;
+  padding: 7px;
+  border-radius: 9px;
+  background-color: var(--app-suave);
+  color: var(--app-primaria);
+  font-size: 20px;
+}
+
+.quantidade {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 6px;
+  border-radius: 50%;
+  background-color: var(--app-contador-fundo);
+  color: var(--app-contador-texto);
+  font-size: 0.78rem;
+  font-weight: 700;
 }
 
 .tarefas {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr));
   grid-auto-rows: max-content;
   align-content: start;
-  align-items: start;
   flex: 1;
+  gap: 14px;
   min-height: 0;
-  gap: 12px;
   overflow-y: auto;
   scrollbar-width: none;
 }
@@ -29,59 +67,108 @@ h2 {
   display: none;
 }
 
-.cabecalho {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.cabecalho-tarefa {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
 mat-card {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
   width: 100%;
   min-width: 0;
-  max-width: none;
-  padding: 12px;
-  box-sizing: border-box;
-  overflow-wrap: anywhere;
-}
-
-h3,
-p {
-  margin: 0;
-}
-
-p {
-  white-space: pre-wrap;
+  height: 224px;
+  padding: 0;
+  border: 1px solid var(--app-borda);
+  border-radius: 14px;
+  background-color: var(--app-cartao);
+  color: var(--app-texto);
+  box-shadow: var(--app-sombra);
+  overflow: hidden;
 }
 
 .conteudo {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  border-radius: 4px;
+  display: grid;
+  grid-template-rows: 2.8rem minmax(0, 1fr);
+  gap: 12px;
+  min-height: 0;
+  padding: 18px 20px;
   cursor: pointer;
 }
 
 .conteudo:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 4px;
+  outline: 3px solid var(--app-foco);
+  outline-offset: -3px;
+}
+
+h3 {
+  display: -webkit-box;
+  margin: 0;
+  color: var(--app-titulo);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+p {
+  display: -webkit-box;
+  max-height: 4.5em;
+  margin: 0;
+  color: var(--app-secundario);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
 }
 
 .acoes {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 12px;
+  min-height: 64px;
+  padding: 10px 14px;
+  border-top: 1px solid var(--app-divisor);
+}
+
+.informacoes {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  min-width: 0;
+}
+
+.prazo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--app-prazo);
+  font-size: 0.84rem;
+  white-space: nowrap;
+}
+
+.prazo mat-icon {
+  width: 18px;
+  height: 18px;
+  font-size: 18px;
+}
+
+.prazo small {
+  font-size: 0.75rem;
+}
+
+.botoes {
+  display: flex;
+  flex-shrink: 0;
+  margin-inline-start: auto;
 }
 
 @media (max-width: 600px) {
@@ -90,14 +177,36 @@ p {
     padding: 12px;
   }
 
-  .cabecalho-tarefa {
+  mat-card {
+    height: 288px;
+  }
+
+  .informacoes {
     align-items: flex-start;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
   }
 
   .acoes {
-    flex-wrap: wrap;
     gap: 8px;
+    padding: 10px 12px;
   }
+}
+
+.vazio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  grid-column: 1 / -1;
+  gap: 8px;
+  padding: 40px 16px;
+  color: var(--app-secundario);
+  text-align: center;
+}
+
+.vazio mat-icon {
+  width: 42px;
+  height: 42px;
+  color: var(--app-primaria);
+  font-size: 38px;
 }
