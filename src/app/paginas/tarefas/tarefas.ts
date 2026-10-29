@@ -72,6 +72,18 @@ export class Tarefas implements OnInit {
     }
   }
 
+  async ordenar(tarefas: Tarefa[]): Promise<void> {
+    if (this.ocupado()) return;
+    this.ocupado.set(true);
+    try {
+      await this.servico.reordenar(tarefas);
+    } catch {
+      this.aviso.open('Não foi possível salvar a ordem. Tente novamente.', 'Fechar');
+    } finally {
+      this.ocupado.set(false);
+    }
+  }
+
   private async carregar(): Promise<void> {
     try {
       await this.servico.carregar();

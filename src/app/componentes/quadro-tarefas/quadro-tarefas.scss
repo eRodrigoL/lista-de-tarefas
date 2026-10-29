@@ -193,6 +193,19 @@ p {
   }
 }
 
+[cdkDragHandle] {
+  cursor: grab;
+  touch-action: none;
+}
+
+[cdkDragHandle]:active {
+  cursor: grabbing;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+}
+
 .vazio {
   display: flex;
   flex-direction: column;

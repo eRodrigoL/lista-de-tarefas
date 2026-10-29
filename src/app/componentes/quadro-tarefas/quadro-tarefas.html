@@ -6,9 +6,17 @@
   <span class="quantidade">{{ quantidade() }}</span>
 </div>
 
-<div class="tarefas" tabindex="0">
+<div
+  class="tarefas"
+  tabindex="0"
+  cdkDropList
+  cdkDropListOrientation="mixed"
+  [cdkDropListData]="tarefas()"
+  [cdkDropListDisabled]="ocupado()"
+  (cdkDropListDropped)="reordenar($event)"
+>
   @for (tarefa of tarefas(); track tarefa.id) {
-    <mat-card>
+    <mat-card cdkDrag [cdkDragData]="tarefa">
       <div
         class="conteudo"
         role="button"
@@ -46,7 +54,18 @@
             </span>
           </span>
         </div>
+
         <div class="botoes">
+          <button
+            mat-icon-button
+            cdkDragHandle
+            [disabled]="ocupado()"
+            aria-label="Reordenar tarefa: arraste ou use as setas para cima e para baixo"
+            (keydown.arrowup)="$event.preventDefault(); mover($index, -1)"
+            (keydown.arrowdown)="$event.preventDefault(); mover($index, 1)"
+          >
+            <mat-icon>drag_indicator</mat-icon>
+          </button>
           <button
             mat-icon-button
             [disabled]="ocupado()"
