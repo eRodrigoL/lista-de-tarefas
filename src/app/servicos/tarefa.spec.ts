@@ -1,3 +1,5 @@
+// src/app/servicos/tarefa.spec.ts
+
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
@@ -11,20 +13,18 @@ describe('TarefaService', () => {
   let servico: TarefaService;
   let http: HttpTestingController;
   const url = `${API_URL}/tarefas`;
-  const antiga: Tarefa = {
-    id: '1',
-    titulo: 'Antiga',
-    descricao: 'Descrição',
-    prazo: '2026-10-15',
+  const dados: NovaTarefa = {
+    titulo: 'Organizar documentos',
+    descricao: 'Separar por data',
+    prazo: '2030-10-10',
     status: 'pendente',
-    criadaEm: '2026-10-14T10:00:00.000Z',
   };
+  const antiga: Tarefa = { ...dados, id: '1', criadaEm: '2026-10-06T09:00:00.000Z' };
   const recente: Tarefa = {
     ...antiga,
     id: '2',
-    titulo: 'Recente',
     status: 'concluida',
-    criadaEm: '2026-10-15T10:00:00.000Z',
+    criadaEm: '2026-10-06T10:00:00.000Z',
   };
 
   beforeEach(() => {
@@ -37,61 +37,105 @@ describe('TarefaService', () => {
 
   afterEach(() => http.verify());
 
-  it('ordena por criação e separa os status', async () => {
-    const carregando = servico.carregar();
-    http.expectOne(url).flush([antiga, recente]);
-    await carregando;
-    expect(servico.tarefas().map((tarefa) => tarefa.id)).toEqual(['2', '1']);
+  it('registra criação em UTC e inclui a tarefa somente após sucesso', async () => {
+    const inicio = Date.now();
+    const operacao = servico.criar(dados);
+    const requisicao = http.expectOne(url);
+    expect(requisicao.request.method).toBe('POST');
+    const enviada = requisicao.request.body;
+    expect(enviada).toEqual({ ...dados, criadaEm: expect.any(String) });
+    expect(new Date(enviada.criadaEm).toISOString()).toBe(enviada.criadaEm);
+    expect(Date.parse(enviada.criadaEm)).toBeGreaterThanOrEqual(inicio);
+    expect(Date.parse(enviada.criadaEm)).toBeLessThanOrEqual(Date.now());
+    expect(servico.tarefas()).toEqual([]);
+    requisicao.flush({ ...enviada, id: '3' });
+    await operacao;
+    expect(servico.tarefas()[0].id).toBe('3');
+  });
+
+  it('não inclui a tarefa quando criar falha', async () => {
+    const operacao = servico.criar(dados);
+    const falha = expect(operacao).rejects.toBeDefined();
+    http.expectOne(url).flush('Erro', { status: 500, statusText: 'Erro' });
+    await falha;
+    expect(servico.tarefas()).toEqual([]);
+  });
+
+  it('carrega por criação decrescente e separa os status', async () => {
+    const operacao = servico.carregar();
+    http.expectOne(`${API_URL}/preferencias/ordenacao`).flush({ id: 'ordenacao', ids: [] });
+    const requisicao = http.expectOne(url);
+    expect(requisicao.request.method).toBe('GET');
+    requisicao.flush([antiga, recente]);
+    await operacao;
+    expect(servico.tarefas()).toEqual([recente, antiga]);
     expect(servico.pendentes()).toEqual([antiga]);
     expect(servico.concluidas()).toEqual([recente]);
   });
 
-  it('envia criadaEm em UTC e inclui a tarefa após a resposta', async () => {
-    const dados: NovaTarefa = {
-      titulo: 'Nova',
-      descricao: 'Descrição',
-      prazo: '2026-10-15',
-      status: 'pendente',
-    };
-    const criando = servico.criar(dados);
-    const requisicao = http.expectOne(url);
-    expect(requisicao.request.method).toBe('POST');
-    expect(requisicao.request.body.criadaEm).toMatch(/^\d{4}-\d{2}-\d{2}T.*Z$/);
+  it('aceita banco vazio e preserva estado se a leitura seguinte falhar', async () => {
+    const vazia = servico.carregar();
+    http.expectOne(`${API_URL}/preferencias/ordenacao`).flush({ id: 'ordenacao', ids: [] });
+    http.expectOne(url).flush([]);
+    await vazia;
     expect(servico.tarefas()).toEqual([]);
-    requisicao.flush({ ...requisicao.request.body, id: '3' });
-    await criando;
-    expect(servico.pendentes()[0].id).toBe('3');
+    const carregando = servico.carregar();
+    http.expectOne(`${API_URL}/preferencias/ordenacao`).flush({ id: 'ordenacao', ids: [] });
+    http.expectOne(url).flush([antiga]);
+    await carregando;
+    const operacao = servico.carregar();
+    http.expectOne(`${API_URL}/preferencias/ordenacao`).flush({ id: 'ordenacao', ids: [] });
+    const falha = expect(operacao).rejects.toBeDefined();
+    http.expectOne(url).flush('Erro', { status: 500, statusText: 'Erro' });
+    await falha;
+    expect(servico.tarefas()).toEqual([antiga]);
   });
 
-  it('atualiza o status preservando criação e posição', async () => {
+  it('atualiza sem duplicar, preserva criação e reposiciona por status', async () => {
     const carregando = servico.carregar();
+    http.expectOne(`${API_URL}/preferencias/ordenacao`).flush({ id: 'ordenacao', ids: [] });
     http.expectOne(url).flush([antiga, recente]);
     await carregando;
-    const alterada: Tarefa = { ...antiga, status: 'concluida' };
-    const atualizando = servico.atualizar(alterada);
-    const requisicao = http.expectOne(`${url}/1`);
+    const alterada: Tarefa = { ...antiga, titulo: 'Alterada', status: 'concluida' };
+    const operacao = servico.atualizar(alterada);
+    const requisicao = http.expectOne(`${url}/${antiga.id}`);
     expect(requisicao.request.method).toBe('PUT');
     expect(requisicao.request.body.criadaEm).toBe(antiga.criadaEm);
     requisicao.flush(alterada);
-    await atualizando;
+    await operacao;
+    expect(servico.tarefas()).toEqual([recente, alterada]);
     expect(servico.pendentes()).toEqual([]);
-    expect(servico.concluidas().map((tarefa) => tarefa.id)).toEqual(['2', '1']);
+    expect(servico.concluidas()).toHaveLength(2);
   });
 
-  it('mantém a tarefa se a exclusão falhar e remove após sucesso', async () => {
+  it('preserva dados anteriores se atualizar falhar', async () => {
     const carregando = servico.carregar();
+    http.expectOne(`${API_URL}/preferencias/ordenacao`).flush({ id: 'ordenacao', ids: [] });
     http.expectOne(url).flush([antiga]);
     await carregando;
-    const falhando = servico.excluir('1');
-    const rejeicao = expect(falhando).rejects.toBeDefined();
-    http.expectOne(`${url}/1`).flush('Erro', { status: 500, statusText: 'Erro' });
-    await rejeicao;
+    const operacao = servico.atualizar({ ...antiga, titulo: 'Alterada' });
+    const falha = expect(operacao).rejects.toBeDefined();
+    http.expectOne(`${url}/${antiga.id}`).flush('Erro', { status: 500, statusText: 'Erro' });
+    await falha;
     expect(servico.tarefas()).toEqual([antiga]);
-    const excluindo = servico.excluir('1');
-    const requisicao = http.expectOne(`${url}/1`);
+  });
+
+  it('remove somente após resposta da API e preserva a tarefa em caso de erro', async () => {
+    const carregando = servico.carregar();
+    http.expectOne(`${API_URL}/preferencias/ordenacao`).flush({ id: 'ordenacao', ids: [] });
+    http.expectOne(url).flush([antiga, recente]);
+    await carregando;
+    const operacao = servico.excluir(antiga.id);
+    const falha = expect(operacao).rejects.toBeDefined();
+    http.expectOne(`${url}/${antiga.id}`).flush('Erro', { status: 500, statusText: 'Erro' });
+    await falha;
+    expect(servico.tarefas()).toEqual([recente, antiga]);
+    const excluindo = servico.excluir(antiga.id);
+    const requisicao = http.expectOne(`${url}/${antiga.id}`);
     expect(requisicao.request.method).toBe('DELETE');
+    expect(servico.tarefas()).toHaveLength(2);
     requisicao.flush(null);
     await excluindo;
-    expect(servico.tarefas()).toEqual([]);
+    expect(servico.tarefas()).toEqual([recente]);
   });
 });
