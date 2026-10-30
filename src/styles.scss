@@ -142,3 +142,43 @@ select {
 button.excluir {
   color: var(--app-perigo);
 }
+
+@media (prefers-contrast: more) {
+  :root {
+    --app-fundo: #ffffff;
+    --app-quadro: #ffffff;
+    --app-cartao: #ffffff;
+    --app-dialog: #ffffff;
+    --app-dialog-cabecalho: #ffffff;
+    --app-cabecalho: #003b22;
+    --app-sobre-cabecalho: #ffffff;
+    --app-primaria: #00512f;
+    --app-primaria-escura: #003b22;
+    --app-texto: #111111;
+    --app-titulo: #111111;
+    --app-secundario: #252525;
+    --app-prazo: #111111;
+    --app-borda: #111111;
+    --app-divisor: #111111;
+    --app-suave: #e4f6ed;
+    --app-contador-fundo: #ffffff;
+    --app-contador-texto: #111111;
+    --app-pendente: #553000;
+    --app-pendente-fundo: #fff0cc;
+    --app-trilho-pendente: #fff0cc;
+    --app-concluida: #003b22;
+    --app-concluida-fundo: #dcffe6;
+    --app-perigo: #a00000;
+    --app-foco: #111111;
+    --app-sombra: none;
+  }
+}
+
+@media (forced-colors: active) {
+  :root {
+    --app-borda: CanvasText;
+    --app-divisor: CanvasText;
+    --app-foco: Highlight;
+    --app-sombra: none;
+  }
+}
