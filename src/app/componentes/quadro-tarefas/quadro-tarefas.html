@@ -30,7 +30,7 @@
         <div class="cabecalho-tarefa">
           <h3>{{ tarefa.titulo }}</h3>
         </div>
-        <p>{{ tarefa.descricao | resumo }}</p>
+        <app-texto-formatado class="resumo" [texto]="tarefa.descricao" [compacto]="true" />
       </div>
 
       <div class="acoes" (click)="$event.stopPropagation()">
@@ -46,6 +46,7 @@
             />
             <span>{{ tarefa.status === 'concluida' ? 'Concluída' : 'Pendente' }}</span>
           </div>
+
           <span class="prazo">
             <mat-icon aria-hidden="true">calendar_today</mat-icon>
             <span>

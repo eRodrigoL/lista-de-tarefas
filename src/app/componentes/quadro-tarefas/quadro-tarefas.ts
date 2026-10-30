@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { Tarefa } from '../../modelos/tarefa';
-import { ResumoPipe } from '../../pipes/resumo-pipe';
+import { TextoFormatado } from '../texto-formatado/texto-formatado';
 
 @Component({
   imports: [
@@ -25,7 +25,7 @@ import { ResumoPipe } from '../../pipes/resumo-pipe';
     MatCardModule,
     MatIconModule,
     MatSlideToggleModule,
-    ResumoPipe,
+    TextoFormatado,
   ],
   selector: 'app-quadro-tarefas',
   styleUrl: './quadro-tarefas.scss',
@@ -37,6 +37,7 @@ export class QuadroTarefas {
   readonly quantidade = input(0);
   readonly tarefas = input<Tarefa[]>([]);
   readonly titulo = input.required<string>();
+
   readonly ordenar = output<Tarefa[]>();
   readonly excluir = output<Tarefa>();
   readonly alterarStatus = output<Tarefa>();
@@ -49,9 +50,13 @@ export class QuadroTarefas {
 
   mover(indice: number, deslocamento: number): void {
     const destino = indice + deslocamento;
-    if (this.ocupado() || destino < 0 || destino >= this.tarefas().length || destino === indice)
+
+    if (this.ocupado() || destino < 0 || destino >= this.tarefas().length || destino === indice) {
       return;
+    }
+
     const tarefas = [...this.tarefas()];
+
     moveItemInArray(tarefas, indice, destino);
     this.ordenar.emit(tarefas);
   }

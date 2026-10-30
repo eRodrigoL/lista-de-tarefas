@@ -1,0 +1,30 @@
+:host {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+p,
+ul,
+ol {
+  margin: 0 0 8px;
+}
+
+p {
+  min-height: 1em;
+  white-space: pre-wrap;
+}
+
+ul,
+ol {
+  padding-left: 24px;
+}
+
+li {
+  white-space: pre-wrap;
+}
+
+:host(.compacto) p,
+:host(.compacto) ul,
+:host(.compacto) ol {
+  margin: 0;
+}

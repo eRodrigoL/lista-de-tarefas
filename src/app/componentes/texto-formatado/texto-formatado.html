@@ -1,0 +1,78 @@
+@for (bloco of blocos(); track $index) {
+  @switch (bloco.tipo) {
+    @case ('paragrafo') {
+      <p>
+        <ng-container
+          [ngTemplateOutlet]="trecho"
+          [ngTemplateOutletContext]="{ $implicit: bloco.itens[0].partes }"
+        />
+      </p>
+    }
+    @case ('topicos') {
+      <ul>
+        @for (item of bloco.itens; track $index) {
+          <li>
+            <ng-container
+              [ngTemplateOutlet]="trecho"
+              [ngTemplateOutletContext]="{ $implicit: item.partes }"
+            />
+          </li>
+        }
+      </ul>
+    }
+    @case ('numeracao') {
+      <ol>
+        @for (item of bloco.itens; track $index) {
+          <li [value]="item.numero">
+            <ng-container
+              [ngTemplateOutlet]="trecho"
+              [ngTemplateOutletContext]="{ $implicit: item.partes }"
+            />
+          </li>
+        }
+      </ol>
+    }
+  }
+}
+
+<ng-template #trecho let-partes>
+  @for (parte of partes; track $index) {
+    @switch (parte.tipo) {
+      @case ('texto') {
+        <span [textContent]="parte.texto"></span>
+      }
+      @case ('negrito') {
+        <strong>
+          <ng-container
+            [ngTemplateOutlet]="trecho"
+            [ngTemplateOutletContext]="{ $implicit: parte.partes }"
+          />
+        </strong>
+      }
+      @case ('italico') {
+        <em>
+          <ng-container
+            [ngTemplateOutlet]="trecho"
+            [ngTemplateOutletContext]="{ $implicit: parte.partes }"
+          />
+        </em>
+      }
+      @case ('sublinhado') {
+        <u>
+          <ng-container
+            [ngTemplateOutlet]="trecho"
+            [ngTemplateOutletContext]="{ $implicit: parte.partes }"
+          />
+        </u>
+      }
+      @case ('tachado') {
+        <s>
+          <ng-container
+            [ngTemplateOutlet]="trecho"
+            [ngTemplateOutletContext]="{ $implicit: parte.partes }"
+          />
+        </s>
+      }
+    }
+  }
+</ng-template>

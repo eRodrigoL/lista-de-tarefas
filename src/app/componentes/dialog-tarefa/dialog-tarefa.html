@@ -30,10 +30,20 @@
       <mat-label>Título</mat-label>
       <input matInput formControlName="titulo" />
     </mat-form-field>
-    <mat-form-field>
-      <mat-label>Descrição</mat-label>
-      <textarea matInput formControlName="descricao" rows="3"></textarea>
-    </mat-form-field>
+
+    @if (visualizando) {
+      <section aria-label="Descrição">
+        <app-texto-formatado [texto]="formulario.controls.descricao.value" />
+      </section>
+    } @else {
+      <mat-form-field subscriptSizing="dynamic">
+        <mat-label>Descrição</mat-label>
+        <textarea matInput formControlName="descricao" rows="5"></textarea>
+        <mat-hint>
+          Use **negrito**, *itálico*, __sublinhado__, ~~tachado~~, - item ou 1. item.
+        </mat-hint>
+      </mat-form-field>
+    }
   </form>
 </mat-dialog-content>
 

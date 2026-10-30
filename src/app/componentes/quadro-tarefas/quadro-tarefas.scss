@@ -106,12 +106,11 @@ h3 {
   overflow: hidden;
   overflow-wrap: anywhere;
   -webkit-box-orient: vertical;
-  -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
 }
 
-p {
+.resumo {
   display: -webkit-box;
   max-height: 4.5em;
   margin: 0;
@@ -121,7 +120,6 @@ p {
   white-space: pre-wrap;
   overflow: hidden;
   overflow-wrap: anywhere;
-  -webkit-box-orient: vertical;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
   line-clamp: 3;
